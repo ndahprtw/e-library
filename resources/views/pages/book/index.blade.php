@@ -79,7 +79,7 @@
                                         <tr>
                                             <td> {{ $no+1 }} </td>
                                             <td> {{ $item->judul }} </td>
-                                            <td> {{ $item->category_id }} </td>
+                                            <td> {{ $item->category->nama_kategori }} </td>
                                             <td> {{ $item->penulis }} </td>
                                             <td> {{ $item->penerbit }} </td>
                                             <td> {{ $item->tahun_terbit }} </td>

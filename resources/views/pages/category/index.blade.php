@@ -58,6 +58,7 @@
                                     <tr>
                                         <th>No.</th>
                                         <th>Kategori</th>
+                                        <th>Jumlah Buku Terkait</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -66,6 +67,7 @@
                                         <tr>
                                             <td> {{ $no+1 }} </td>
                                             <td> {{ $item->nama_kategori }} </td>
+                                            <td> {{ $item->book->count() }} </td>
                                             <td class="d-flex gap-2">
                                                 <a href="{{ route('kategori.edit', $item->id) }}" class="btn btn-primary">Edit</a>
 

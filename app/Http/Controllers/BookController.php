@@ -15,6 +15,7 @@ class BookController extends Controller
     public function index(Request $request)
     {
         $data = Book::query()
+            ->with('category')
             ->when($request->search, function ($query) use ($request) {
                 $query->where('judul', 'like', "%{$request->search}%");
             })

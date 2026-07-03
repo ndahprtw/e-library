@@ -10,6 +10,7 @@ class CategoryController extends Controller
 {
     public function index(Request $request) {
         $data = Category::query()
+            ->with('book')
             ->when($request->search, function ($query) use ($request) {
                 $query->where('nama_kategori', 'like', "%{$request->search}%");
             })
