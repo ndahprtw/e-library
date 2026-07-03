@@ -8,8 +8,13 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function index() {
-        $data = Category::all();
+    public function index(Request $request) {
+        $data = Category::query()
+            ->when($request->search, function ($query) use ($request) {
+                $query->where('nama_kategori', 'like', "%{$request->search}%");
+            })
+            ->orderBy('nama_kategori')
+            ->paginate(5);
         return view('pages.category.index', compact('data'));
     }
 
@@ -46,8 +51,9 @@ class CategoryController extends Controller
         return redirect()->route('kategori.index')->with('success', 'Kategori berhasil diperbarui.');
     }           
 
-    public function destroy(Category $category) {
-        $category->delete();
+    public function destroy($id) {
+        $data = Category::findOrFail($id);
+        $data->delete();
         return redirect()->route('kategori.index')->with('success', 'Kategori berhasil dihapus.');
     }
 }

@@ -101,9 +101,9 @@
                                 </tbody>
                             </table>
 
-                            {{-- <div class="d-flex justify-content-end mt-3">
+                            <div class="d-flex justify-content-end mt-3">
                                 {{ $data->links() }}
-                            </div> --}}
+                            </div>
                         </div>
                     </div>
                 </div>
