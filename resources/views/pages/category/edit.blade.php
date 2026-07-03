@@ -28,7 +28,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <form action="{{ route('kategori.update', $data->id) }}" method="post">
+                        <form action="{{ route('kategori.update', $category->id) }}" method="post">
                             @csrf
                             @method('put')
                             

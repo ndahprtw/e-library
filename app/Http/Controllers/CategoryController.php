@@ -30,27 +30,24 @@ class CategoryController extends Controller
         return redirect()->route('kategori.index')->with('success', 'Kategori berhasil ditambahkan.');
     }   
 
-    public function edit($id) {
-        $data = Category::findOrFail($id);
-        return view('pages.category.edit', compact('data'));
+    public function edit(Category $category) {
+        return view('pages.category.edit', compact('category'));
     }
 
-    public function update(Request $request, $id) {
+    public function update(Request $request, Category $category) {
         $request->validate([
-            'nama_kategori' => 'required|unique:categories,nama_kategori,' . $id
+            'nama_kategori' => 'required|unique:categories,nama_kategori,' . $category->id
         ]);
 
-        $data = Category::findOrFail($id);
-        $data->update([
+        $category->update([
             'nama_kategori' => $request->nama_kategori
         ]);
 
         return redirect()->route('kategori.index')->with('success', 'Kategori berhasil diperbarui.');
     }           
 
-    public function destroy($id) {
-        $data = Category::findOrFail($id);
-        $data->delete();
+    public function destroy(Category $category) {
+        $category->delete();
         return redirect()->route('kategori.index')->with('success', 'Kategori berhasil dihapus.');
     }
 }
