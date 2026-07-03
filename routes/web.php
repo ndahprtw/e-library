@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -20,5 +21,6 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('categories', CategoryController::class)->names('kategori');
+Route::resource('books', BookController::class)->names('buku');
 
 require __DIR__.'/auth.php';

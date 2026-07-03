@@ -40,7 +40,7 @@
           </a>
         </li>
         <li class="sidebar-item">
-          <a class="sidebar-link" href="/kategori" aria-expanded="false">
+          <a class="sidebar-link" href="{{ route('kategori.index') }}" aria-expanded="false">
             <span>
               <i class="ti ti-shopping-cart"></i>
             </span>
@@ -48,7 +48,7 @@
           </a>
         </li>
         <li class="sidebar-item">
-          <a class="sidebar-link" href="/buku" aria-expanded="false">
+          <a class="sidebar-link" href="{{ route('buku.index') }}" aria-expanded="false">
             <span>
               <i class="ti ti-books"></i>
             </span>
