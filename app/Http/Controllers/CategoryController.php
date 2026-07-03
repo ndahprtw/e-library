@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
     public function index() {
-        $data = DB::table('categories')->get();
+        $data = Category::all();
         return view('pages.category.index', compact('data'));
     }
 
@@ -22,7 +22,7 @@ class CategoryController extends Controller
             'nama_kategori' => 'required|unique:categories'
         ]);
 
-        DB::table('categories')->insert([
+        Category::insert([
             'nama_kategori' => $request->nama_kategori
         ]);
 
@@ -31,7 +31,7 @@ class CategoryController extends Controller
     }   
 
     public function edit($id) {
-        $data = DB::table('categories')->where('id', $id)->first();
+        $data = Category::findOrFail($id);
         return view('pages.category.edit', compact('data'));
     }
 
@@ -40,7 +40,8 @@ class CategoryController extends Controller
             'nama_kategori' => 'required|unique:categories,nama_kategori,' . $id
         ]);
 
-        DB::table('categories')->where('id', $id)->update([
+        $data = Category::findOrFail($id);
+        $data->update([
             'nama_kategori' => $request->nama_kategori
         ]);
 
@@ -48,7 +49,8 @@ class CategoryController extends Controller
     }           
 
     public function destroy($id) {
-        DB::table('categories')->where('id', $id)->delete();
+        $data = Category::findOrFail($id);
+        $data->delete();
         return redirect()->route('kategori.index')->with('success', 'Kategori berhasil dihapus.');
     }
 }
