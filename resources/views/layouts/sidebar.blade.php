@@ -32,7 +32,7 @@
           </a>
         </li>
         <li class="sidebar-item">
-          <a class="sidebar-link" href="" aria-expanded="false">
+          <a class="sidebar-link" href="/user" aria-expanded="false">
             <span>
               <i class="ti ti-user"></i>
             </span>
@@ -40,7 +40,7 @@
           </a>
         </li>
         <li class="sidebar-item">
-          <a class="sidebar-link" href="" aria-expanded="false">
+          <a class="sidebar-link" href="/kategori" aria-expanded="false">
             <span>
               <i class="ti ti-shopping-cart"></i>
             </span>
@@ -48,15 +48,15 @@
           </a>
         </li>
         <li class="sidebar-item">
-          <a class="sidebar-link" href="" aria-expanded="false">
+          <a class="sidebar-link" href="/buku" aria-expanded="false">
             <span>
-              <i class="ti ti-currency-dollar"></i>
+              <i class="ti ti-books"></i>
             </span>
             <span class="hide-menu">Buku</span>
           </a>
         </li>
         <li class="sidebar-item">
-          <a class="sidebar-link" href="" aria-expanded="false">
+          <a class="sidebar-link" href="/peminjaman" aria-expanded="false">
             <span>
               <i class="ti ti-cpu"></i>
             </span>
