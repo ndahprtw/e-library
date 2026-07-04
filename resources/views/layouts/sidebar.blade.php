@@ -26,9 +26,17 @@
         <li class="sidebar-item">
           <a class="sidebar-link" href="/dashboard" aria-expanded="false">
             <span>
-              <i class="ti ti-aperture"></i>
+              <i class="ti ti-layout-dashboard"></i>
             </span>
             <span class="hide-menu">Dashboard</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a class="sidebar-link" href="/user" aria-expanded="false">
+            <span>
+              <i class="ti ti-user-shield"></i>
+            </span>
+            <span class="hide-menu">Role</span>
           </a>
         </li>
         <li class="sidebar-item">
@@ -58,7 +66,7 @@
         <li class="sidebar-item">
           <a class="sidebar-link" href="{{ route('peminjaman.index') }}" aria-expanded="false">
             <span>
-              <i class="ti ti-cpu"></i>
+              <i class="ti ti-book-download"></i>
             </span>
             <span class="hide-menu">Peminjaman</span>
           </a>
@@ -69,7 +77,7 @@
 
                 <a href="{{ route('logout') }}" class="sidebar-link" onclick="event.preventDefault(); this.closest('form').submit();">
                     <span>
-                        <i class="ti ti-activity-heartbeat"></i>
+                        <i class="ti ti-logout"></i>
                     </span>
                     <span class="hide-menu">Logout</span>
                 </a>
