@@ -28,15 +28,10 @@
                 <div class="card">
                     <div class="card-body">
 
-                        @if(session('success'))
-                            {{ session('success') }}
-                        @endif
-
                         <div class="d-flex justify-content-between align-items-center my-3">
                             <form action="{{ route('kategori.index') }}" method="GET" class="d-flex">
                                 <input class="form-control" type="text" name="search" value="{{ request('search') }}" placeholder="Cari Kategori">
-                                <button type="submit" class="btn btn-primary">Cari</button>
-                                <a href="{{ route('kategori.index') }}" class="btn btn-primary mx-3">Refresh</a>
+                                <a href="{{ route('user.index') }}" class="btn btn-primary mx-3"><i class="ti ti-refresh"></i></a>
                             </form>
                             <a href="{{ route('kategori.create') }}" class="btn btn-primary">Tambah Data</a>
                         </div>
@@ -77,8 +72,8 @@
                                             <td class="d-flex gap-2">
                                                 <a href="{{ route('kategori.edit', $item->id) }}" class="btn btn-primary">Edit</a>
 
-                                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#samedata-modal"> Hapus </button>
-                                                <div class="modal fade" id="samedata-modal" tabindex="-1" aria-labelledby="exampleModalLabel1">
+                                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#samedata-modal{{ $item->id }}"> Hapus </button>
+                                                <div class="modal fade" id="samedata-modal{{ $item->id }}" tabindex="-1" aria-labelledby="exampleModalLabel1">
                                                     <div class="modal-dialog" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header d-flex align-items-center">

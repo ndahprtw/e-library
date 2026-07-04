@@ -71,8 +71,8 @@
                                             <td> {{ $item->tanggal_jatuh_tempo }} </td>
                                             <td>
                                                 @if ($item->status == 'dipinjam')        
-                                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#samedata-modal"> Terima </button>
-                                                    <div class="modal fade" id="samedata-modal" tabindex="-1" aria-labelledby="exampleModalLabel1">
+                                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#samedata-modal{{ $item->id }}"> Terima </button>
+                                                    <div class="modal fade" id="samedata-modal{{ $item->id }}" tabindex="-1" aria-labelledby="exampleModalLabel1">
                                                         <div class="modal-dialog" role="document">
                                                             <div class="modal-content">
                                                                 <form action="{{ route('peminjaman.update', $item->id) }}" method="post">

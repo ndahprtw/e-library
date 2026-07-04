@@ -13,16 +13,11 @@
     <!-- Sidebar navigation-->
     <nav class="sidebar-nav scroll-sidebar" data-simplebar>
       <ul id="sidebarnav">
-        <!-- ============================= -->
-        <!-- Home -->
-        <!-- ============================= -->
+
         <li class="nav-small-cap">
           <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
           <span class="hide-menu">Home</span>
         </li>
-        <!-- =================== -->
-        <!-- Dashboard -->
-        <!-- =================== -->
         <li class="sidebar-item">
           <a class="sidebar-link" href="/dashboard" aria-expanded="false">
             <span>
@@ -31,8 +26,13 @@
             <span class="hide-menu">Dashboard</span>
           </a>
         </li>
+
+        <li class="nav-small-cap">
+          <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+          <span class="hide-menu">User</span>
+        </li>
         <li class="sidebar-item">
-          <a class="sidebar-link" href="/user" aria-expanded="false">
+          <a class="sidebar-link" href="{{ route('role.index') }}" aria-expanded="false">
             <span>
               <i class="ti ti-user-shield"></i>
             </span>
@@ -40,12 +40,25 @@
           </a>
         </li>
         <li class="sidebar-item">
-          <a class="sidebar-link" href="/user" aria-expanded="false">
+          <a class="sidebar-link" href="{{ route('akses.index') }}" aria-expanded="false">
+            <span>
+              <i class="ti ti-shield-lock"></i>
+            </span>
+            <span class="hide-menu">Akses</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a class="sidebar-link" href="{{ route('user.index') }}" aria-expanded="false">
             <span>
               <i class="ti ti-user"></i>
             </span>
             <span class="hide-menu">User</span>
           </a>
+        </li>
+
+        <li class="nav-small-cap">
+          <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+          <span class="hide-menu">Book</span>
         </li>
         <li class="sidebar-item">
           <a class="sidebar-link" href="{{ route('kategori.index') }}" aria-expanded="false">

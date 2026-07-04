@@ -6,11 +6,11 @@
         <div class="card-body px-4 py-3">
         <div class="row align-items-center">
             <div class="col-9">
-            <h4 class="fw-semibold mb-8">Buku</h4>
+            <h4 class="fw-semibold mb-8">Pengguna</h4>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a class="text-muted " href="/dashboard">Dashboard</a></li>
-                <li class="breadcrumb-item" aria-current="page">Buku</li>
+                <li class="breadcrumb-item" aria-current="page">Pengguna</li>
                 </ol>
             </nav>
             </div>
@@ -29,14 +29,11 @@
                     <div class="card-body">
 
                         <div class="d-flex justify-content-between align-items-center my-3">
-                            <form action="{{ route('buku.index') }}" method="GET" class="d-flex">
-                                <input class="form-control" type="text" name="search" value="{{ request('search') }}" placeholder="Cari Judul Buku">
+                            <form action="{{ route('user.index') }}" method="GET" class="d-flex">
+                                <input class="form-control" type="text" name="search" value="{{ request('search') }}" placeholder="Cari User">
                                 <a href="{{ route('user.index') }}" class="btn btn-primary mx-3"><i class="ti ti-refresh"></i></a>
                             </form>
-
-                            <div class="d-flex gap-2">
-                                <a href="{{ route('buku.create') }}" class="btn btn-primary">Tambah Data</a>
-                            </div>
+                            <a href="{{ route('user.create') }}" class="btn btn-primary">Tambah Data</a>
                         </div>
 
                         @if(session('success'))
@@ -47,14 +44,6 @@
                                     {{ session('success') }}
                                 </div>
                             </div>
-                        @elseif(session('error'))
-                            <div class="alert customize-alert alert-dismissible border-danger text-danger fade show remove-close-icon" role="alert">
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                <div class="d-flex align-items-center font-medium me-3 me-md-0">
-                                    <i class="ti ti-info-circle fs-5 me-2 text-danger"></i>
-                                    {{ session('error') }}
-                                </div>
-                            </div>
                         @endif
 
                         <div class="table-responsive">
@@ -63,13 +52,9 @@
                                 <thead>
                                     <tr>
                                         <th>No.</th>
-                                        <th>Cover</th>
-                                        <th>Judul</th>
-                                        <th>Kategori</th>
-                                        <th>Penulis</th>
-                                        <th>Penerbit</th>
-                                        <th>Tahun Terbit</th>
-                                        <th>Stok</th>
+                                        <th>Nama</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -77,36 +62,25 @@
                                     @forelse ($data as $no => $item)
                                         <tr>
                                             <td> {{ $no+1 }} </td>
-                                            <td>
-                                                @if ($item->cover)
-                                                    <img src="{{ Storage::url($item->cover) }}" class="img-fluid w-25" alt="cover buku">
-                                                @else
-                                                    <img src="{{ asset('assets/images/default-book.jpg') }}" alt="cover buku" class="img-fluid w-25">
-                                                @endif
+                                            <td> {{ $item->name }} </td>
+                                            <td> {{ $item->email }} </td>
+                                            <td> {{ $item->getRoleNames()->first() }} </td>
+                                            <td class="d-flex gap-2">
+                                                <a href="{{ route('user.edit', $item->id) }}" class="btn btn-primary">Edit</a>
 
-                                            </td>
-                                            <td> {{ $item->judul }} </td>
-                                            <td> {{ $item->category->nama_kategori }} </td>
-                                            <td> {{ $item->penulis }} </td>
-                                            <td> {{ $item->penerbit }} </td>
-                                            <td> {{ $item->tahun_terbit }} </td>
-                                            <td> {{ $item->stok }} </td>
-                                            <td>
-                                                <a href="{{ route('buku.edit', $item->id) }}" class="btn btn-primary">Edit</a>
-
-                                               <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#samedata-modal{{ $item->id }}"> Hapus </button>
+                                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#samedata-modal{{ $item->id }}"> Hapus </button>
                                                 <div class="modal fade" id="samedata-modal{{ $item->id }}" tabindex="-1" aria-labelledby="exampleModalLabel1">
                                                     <div class="modal-dialog" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header d-flex align-items-center">
-                                                                <h4 class="modal-title" id="exampleModalLabel1"> Hapus Buku </h4>
+                                                                <h4 class="modal-title" id="exampleModalLabel1"> Hapus Pengguna </h4>
                                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                             </div>
-                                                            <form action="{{ route('buku.destroy', $item->id) }}" method="post">
+                                                            <form action="{{ route('user.destroy', $item->id) }}" method="post">
                                                                 @csrf
                                                                 @method('delete')
                                                                 <div class="modal-body">
-                                                                    Apakah anda yakin ingin menghapus buku <strong>{{ $item->judul }}</strong>?
+                                                                    Apakah anda yakin ingin menghapus informasi dari <strong>{{ $item->name }}</strong>?
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-light-danger text-danger font-medium" data-bs-dismiss="modal"> Close </button>
@@ -116,7 +90,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
                                             </td>
                                         </tr>
                                     @empty
