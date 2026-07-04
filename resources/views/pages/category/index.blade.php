@@ -67,7 +67,13 @@
                                         <tr>
                                             <td> {{ $no+1 }} </td>
                                             <td> {{ $item->nama_kategori }} </td>
-                                            <td> {{ $item->book->count() }} </td>
+                                            <td> 
+                                                @if ($item->book) 
+                                                   <a href="{{ route('kategori.show', $item->id) }}" class="btn btn-info">{{ $item->book->count() }} buku terkait</a>
+                                                @else 
+                                                    0
+                                                @endif
+                                            </td>
                                             <td class="d-flex gap-2">
                                                 <a href="{{ route('kategori.edit', $item->id) }}" class="btn btn-primary">Edit</a>
 

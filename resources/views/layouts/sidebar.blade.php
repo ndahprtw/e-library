@@ -42,7 +42,7 @@
         <li class="sidebar-item">
           <a class="sidebar-link" href="{{ route('kategori.index') }}" aria-expanded="false">
             <span>
-              <i class="ti ti-shopping-cart"></i>
+              <i class="ti ti-tag"></i>
             </span>
             <span class="hide-menu">Kategori</span>
           </a>

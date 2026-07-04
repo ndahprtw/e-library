@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Book;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -35,6 +36,11 @@ class CategoryController extends Controller
 
         return redirect()->route('kategori.index')->with('success', 'Kategori berhasil ditambahkan.');
     }   
+
+    public function show(Category $category) {
+        $book = Book::with('category')->where('category_id', $category->id)->get();
+        return view('pages.category.show', compact('category', 'book'));
+    }
 
     public function edit(Category $category) {
         return view('pages.category.edit', compact('category'));
