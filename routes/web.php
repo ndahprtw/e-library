@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\BorrowingController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -18,9 +19,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    Route::resource('categories', CategoryController::class)->names('kategori');
+    Route::resource('books', BookController::class)->names('buku');
+    Route::resource('borrowings', BorrowingController::class)->names('peminjaman');
 });
 
-Route::resource('categories', CategoryController::class)->names('kategori');
-Route::resource('books', BookController::class)->names('buku');
 
 require __DIR__.'/auth.php';

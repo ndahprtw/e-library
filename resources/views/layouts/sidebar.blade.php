@@ -56,7 +56,7 @@
           </a>
         </li>
         <li class="sidebar-item">
-          <a class="sidebar-link" href="/peminjaman" aria-expanded="false">
+          <a class="sidebar-link" href="{{ route('peminjaman.index') }}" aria-expanded="false">
             <span>
               <i class="ti ti-cpu"></i>
             </span>

@@ -21,12 +21,12 @@ class BookController extends Controller
                 $query->where('judul', 'like', "%{$request->search}%");
             })
             ->orderBy('judul')
-            ->paginate(5);
-        return view('pages.book.index-admin', compact('data'));
+        //     ->paginate(5);
+        // return view('pages.book.index-admin', compact('data'));
         
-        //     ->get();
-        // $kategori = Category::orderBy('nama_kategori')->get();
-        // return view('pages.book.index-user', compact('data', 'kategori'));
+            ->get();
+        $kategori = Category::orderBy('nama_kategori')->get();
+        return view('pages.book.index-user', compact('data', 'kategori'));
     }
 
     /**
@@ -77,7 +77,7 @@ class BookController extends Controller
      */
     public function show(Book $book)
     {
-        // return view('pages.book.show', compact('book'));
+        return view('pages.book.show', compact('book'));
     }
 
     /**

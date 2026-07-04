@@ -69,8 +69,8 @@
               <i class="ti ti-menu-2 fs-6"></i>
             </a>
             <h5 class="fs-5 fw-semibold mb-0 d-none d-lg-block">Katalog Buku</h5>
-            <form class="position-relative">
-              <input type="text" class="form-control search-chat py-2 ps-5" id="text-srh" placeholder="Search Product">
+            <form class="position-relative" method="GET" action="{{ route('buku.index') }}">
+              <input type="text" name="search" value="{{ request('search') }}" class="form-control search-chat py-2 ps-5" id="text-srh" placeholder="Search Book">
               <i class="ti ti-search position-absolute top-50 start-0 translate-middle-y fs-6 text-dark ms-3"></i>
             </form>
           </div>  
@@ -85,7 +85,12 @@
                     @else
                       <img src="{{ asset('assets/images/default-book.jpg') }}" class="card-img-top rounded-0" alt="...">
                     @endif
-                    <a href="javascript:void(0)" class="bg-primary rounded-circle p-2 text-white d-inline-flex position-absolute bottom-0 end-0 mb-n3 me-3" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Add To Cart"><i class="ti ti-book fs-4"></i></a>                      </div>
+                    @if ($item->stok > 0)
+                      <a href="{{ route('buku.show', $item->id) }}" class="bg-primary rounded-circle p-2 text-white d-inline-flex position-absolute bottom-0 end-0 mb-n3 me-3" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Pinjam Buku"><i class="ti ti-book fs-4"></i></a>
+                    @else
+                      <button class="bg-secondary rounded-circle p-2 text-white d-inline-flex position-absolute bottom-0 end-0 mb-n3 me-3" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Stok Habis"><i class="ti ti-book fs-4"></i></button>
+                    @endif
+                  </div>
                   <div class="card-body pt-3 p-4">
                     <h6 class="fw-semibold fs-4">{{ $item->judul }}</h6>
                     <div class="d-flex align-items-center justify-content-between">
@@ -151,4 +156,12 @@
       </div>
     </div>
 </div>
+
+<script>
+    const search = document.getElementById('text-srh');
+
+    search.addEventListener('input', function () {
+        this.form.submit();
+    });
+</script>
 @endsection

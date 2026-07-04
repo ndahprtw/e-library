@@ -1,0 +1,105 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Controllers\Controller;
+use App\Models\Book;
+use App\Models\Borrowing;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+class BorrowingController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        $data = Borrowing::with(['book', 'user'])->orderBy('tanggal_peminjaman', 'desc')->get();
+        return view('pages.borrowing.index', compact('data'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        DB::transaction(function () use ($request) {
+            $book = Book::findOrFail($request['book_id']);
+
+            if ($book->stok <= 0) {
+                return redirect()->route('peminjaman.index')->with('error', 'Stok buku habis.');
+            }
+
+            $book->decrement('stok');
+
+            Borrowing::create([
+                'tanggal_peminjaman' => now(),
+                'tanggal_jatuh_tempo' => now()->addDays(7),
+                'user_id' => auth()->user()->id,
+                'book_id' => $book->id,
+                'status' => 'dipinjam',
+            ]);
+        });
+
+        return redirect()->route('peminjaman.index')->with('success', 'Buku berhasil dipinjam.');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Borrowing $borrowing)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Borrowing $borrowing)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Borrowing $borrowing)
+    {
+
+        DB::transaction(function () use ($borrowing) {
+            $book = Book::findOrFail($borrowing['book_id']);
+            $book->increment('stok');
+
+            if($borrowing->tanggal_jatuh_tempo < now()) {
+                $borrowing->update([
+                    'tanggal_pengembalian' => now(),
+                    'status' => 'terlambat',
+                ]);
+            } else {
+                $borrowing->update([
+                    'tanggal_pengembalian' => now(),
+                    'status' => 'dikembalikan',
+                ]);
+            }
+        });
+
+        return redirect()->route('peminjaman.index')->with('success', 'Buku yang dipinjam berhasil dikembalikan.');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Borrowing $borrowing)
+    {
+        //
+    }
+}
