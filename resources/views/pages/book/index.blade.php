@@ -80,9 +80,9 @@
                                             <td> {{ $no+1 }} </td>
                                             <td>
                                                 @if ($item->cover)
-                                                    <img src="{{ asset('assets/images/cover-buku/'.$item->cover) }}" class="img-fluid" alt="">
+                                                    <img src="{{ Storage::url($item->cover) }}" class="img-fluid w-25" alt="cover buku">
                                                 @else
-                                                    cover tidak tersedia
+                                                    <img src="{{ asset('assets/images/default-book.jpg') }}" alt="cover buku" class="img-fluid w-25">
                                                 @endif
 
                                             </td>
