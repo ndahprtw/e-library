@@ -22,7 +22,11 @@ class BookController extends Controller
             })
             ->orderBy('judul')
             ->paginate(5);
-        return view('pages.book.index', compact('data'));
+        return view('pages.book.index-admin', compact('data'));
+        
+        //     ->get();
+        // $kategori = Category::orderBy('nama_kategori')->get();
+        // return view('pages.book.index-user', compact('data', 'kategori'));
     }
 
     /**
