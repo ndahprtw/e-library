@@ -28,7 +28,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <form action="{{ route('buku.update', $book) }}" method="post">
+                        <form action="{{ route('buku.update', $book) }}" method="post" enctype="multipart/form-data">
                             @csrf
                             @method('put')
 

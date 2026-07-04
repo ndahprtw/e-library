@@ -47,13 +47,23 @@ class BookController extends Controller
             'category_id' => 'required|exists:categories,id'
         ]);
 
+        if ($request->hasFile('cover')) {
+            $gambar = $request->file('cover');
+            $imageName = $request->judul .'.' . $gambar->extension();
+            $gambar->move(public_path('assets/images/cover-buku/'), $imageName);
+        } else {
+            $imageName = null;
+        }
+
+
         Book::create([
             'judul' => $request->judul,
             'penulis' => $request->penulis,
             'penerbit' => $request->penerbit,
             'tahun_terbit' => $request->tahun_terbit,
             'stok' => $request->stok,
-            'category_id' => $request->category_id
+            'category_id' => $request->category_id,
+            'cover' => $imageName
         ]);
 
         return redirect()->route('buku.index')->with('success', 'Buku berhasil ditambahkan.');
@@ -90,13 +100,26 @@ class BookController extends Controller
             'category_id' => 'required|exists:categories,id'
         ]);
 
+         if ($request->hasFile('cover')) {
+            // Hapus file foto sebelumnya dari penyimpanan
+            if ($book->cover && file_exists(public_path('assets/images/cover-buku/' . $book->cover))) {
+                unlink(public_path('assets/images/cover-buku/' . $book->cover));
+            }
+            $book_image = $request->file('cover');
+            $imageName = $request->judul .'.' . $book_image->extension();
+            $book_image->move(public_path('assets/images/cover-buku/'), $imageName);    
+        } else {
+            $imageName = $book->cover;
+        }
+
         $book->update([
             'judul' => $request->judul,
             'penulis' => $request->penulis,
             'penerbit' => $request->penerbit,
             'tahun_terbit' => $request->tahun_terbit,
             'stok' => $request->stok,
-            'category_id' => $request->category_id
+            'category_id' => $request->category_id,
+            'cover' => $imageName
         ]);
 
         return redirect()->route('buku.index')->with('success', 'Buku berhasil diperbarui.');
@@ -107,6 +130,10 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
+        if ($book->cover && file_exists(public_path('assets/images/cover-buku/'.$book->cover))) {
+            unlink(public_path('assets/images/cover-buku/'.$book->cover));
+        }
+
         $book->delete();
         return redirect()->route('buku.index')->with('success', 'Buku berhasil dihapus.');
     }

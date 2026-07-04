@@ -64,13 +64,13 @@
                                 <thead>
                                     <tr>
                                         <th>No.</th>
+                                        <th>Cover</th>
                                         <th>Judul</th>
                                         <th>Kategori</th>
                                         <th>Penulis</th>
                                         <th>Penerbit</th>
                                         <th>Tahun Terbit</th>
                                         <th>Stok</th>
-                                        <th>Cover</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -78,19 +78,20 @@
                                     @forelse ($data as $no => $item)
                                         <tr>
                                             <td> {{ $no+1 }} </td>
+                                            <td>
+                                                @if ($item->cover)
+                                                    <img src="{{ asset('assets/images/cover-buku/'.$item->cover) }}" class="img-fluid" alt="">
+                                                @else
+                                                    cover tidak tersedia
+                                                @endif
+
+                                            </td>
                                             <td> {{ $item->judul }} </td>
                                             <td> {{ $item->category->nama_kategori }} </td>
                                             <td> {{ $item->penulis }} </td>
                                             <td> {{ $item->penerbit }} </td>
                                             <td> {{ $item->tahun_terbit }} </td>
                                             <td> {{ $item->stok }} </td>
-                                            <td>
-                                                @if ($item->cover != null)
-                                                    {{ $item->cover }}
-                                                @else
-                                                    -
-                                                @endif
-                                            </td>
                                             <td>
                                                 <a href="{{ route('buku.edit', $item->id) }}" class="btn btn-primary">Edit</a>
 

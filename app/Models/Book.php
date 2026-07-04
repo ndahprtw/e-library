@@ -13,7 +13,8 @@ class Book extends Model
         'penerbit',
         'tahun_terbit',
         'stok',
-        'category_id'
+        'category_id',
+        'cover'
     ];
 
     public function category()
