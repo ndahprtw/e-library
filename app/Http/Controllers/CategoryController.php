@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Category\StoreCategoryRequest;
+use App\Http\Requests\Category\UpdateCategoryRequest;
 use App\Models\Book;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -36,13 +38,10 @@ class CategoryController extends Controller implements HasMiddleware
         return view('pages.category.create');
     }
 
-    public function store(Request $request) {
-        $request->validate([
-            'nama_kategori' => 'required|unique:categories'
-        ]);
+    public function store(StoreCategoryRequest $request) {
 
         Category::insert([
-            'nama_kategori' => $request->nama_kategori
+            'nama_kategori' => $request->nama_kategori,
         ]);
 
 
@@ -65,13 +64,10 @@ class CategoryController extends Controller implements HasMiddleware
         return view('pages.category.edit', compact('category'));
     }
 
-    public function update(Request $request, Category $category) {
-        $request->validate([
-            'nama_kategori' => 'required|unique:categories,nama_kategori,' . $category->id
-        ]);
-
+    public function update(UpdateCategoryRequest $request, Category $category) {
+        
         $category->update([
-            'nama_kategori' => $request->nama_kategori
+            'nama_kategori' => $request->nama_kategori,
         ]);
 
         return redirect()->route('kategori.index')->with('success', 'Kategori berhasil diperbarui.');

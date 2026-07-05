@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Access\StoreAccessRequest;
+use App\Http\Requests\Access\UpdateAccessRequest;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -12,7 +14,7 @@ class PermissionController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            new Middleware('permission:manage permission'),
+            new Middleware('permission:manage permissions'),
         ];
     }
     /**
@@ -40,14 +42,10 @@ class PermissionController extends Controller implements HasMiddleware
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreAccessRequest $request)
     {
-        $request->validate([
-            'nama' => 'required|unique:permissions,name',
-        ]); 
-
         Permission::create([
-            'name' => $request->nama,
+            'name' => $request->validated('nama'),
             'guard_name' => 'web',
         ]); 
         return redirect()->back()->with('success', 'Akses berhasil ditambahkan.');
@@ -72,14 +70,10 @@ class PermissionController extends Controller implements HasMiddleware
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Permission $permission)
+    public function update(UpdateAccessRequest $request, Permission $permission)
     {
-        $request->validate([
-            'nama' => 'required|unique:permissions,name,' . $permission->id,
-        ]);
-
         $permission->update([
-            'name' => $request->nama,
+            'name' => $request->validated('nama'),
         ]);
 
         return redirect()->back()->with('success', 'Akses berhasil diperbarui.');

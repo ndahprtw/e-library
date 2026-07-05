@@ -8,12 +8,17 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use App\Http\Requests\Access\StoreAccessRequest;
+use App\Http\Requests\Access\UpdateAccessRequest;
+
+// use App\Http\Requests\Access\UpdateAccessRequest;
+
 class RoleController extends Controller implements HasMiddleware
 {
     public static function middleware(): array
     {
         return [
-            new Middleware('permission:manage role'),
+            new Middleware('permission:manage roles'),
         ];
     }
     /**
@@ -36,14 +41,10 @@ class RoleController extends Controller implements HasMiddleware
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreAccessRequest $request)
     {
-        $request->validate([
-            'nama' => 'required|unique:roles,name',
-        ]); 
-
         Role::create([
-            'name' => $request->nama,
+            'name' => $request->validated('nama'),
             'guard_name' => 'web',
         ]); 
         return redirect()->back()->with('success', 'Role berhasil ditambahkan.');
@@ -69,14 +70,10 @@ class RoleController extends Controller implements HasMiddleware
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Role $role)
+    public function update(UpdateAccessRequest $request, Role $role)
     {
-        $request->validate([
-            'nama' => 'required|unique:roles,name,' . $role->id,
-        ]);
-
         $role->update([
-            'name' => $request->nama,
+            'name' => $request->validated('nama'),
         ]);
 
         return redirect()->back()->with('success', 'Role berhasil diperbarui.');

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Book\StoreBookRequest;
+use App\Http\Requests\Book\UpdateBookRequest;
 use App\Models\Book;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -68,16 +70,8 @@ class BookController extends Controller implements HasMiddleware
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreBookRequest $request)
     {
-        $request->validate([
-            'judul' => 'required',
-            'penulis' => 'required',
-            'penerbit' => 'required',
-            'tahun_terbit' => 'required|digits:4|integer|min:1900|max:' . (date('Y') + 1),
-            'stok' => 'required|integer|min:0',
-            'category_id' => 'required|exists:categories,id'
-        ]);
 
         $cover = null;
 
@@ -87,12 +81,12 @@ class BookController extends Controller implements HasMiddleware
 
 
         Book::create([
-            'judul' => $request->judul,
-            'penulis' => $request->penulis,
-            'penerbit' => $request->penerbit,
-            'tahun_terbit' => $request->tahun_terbit,
-            'stok' => $request->stok,
-            'category_id' => $request->category_id,
+            'judul' => $request->validated('judul'),
+            'penulis' => $request->validated('penulis'),
+            'penerbit' => $request->validated('penerbit'),
+            'tahun_terbit' => $request->validated('tahun_terbit'),
+            'stok' => $request->validated('stok'),
+            'category_id' => $request->validated('category_id'),
             'cover' => $cover,
         ]);
 
@@ -119,16 +113,8 @@ class BookController extends Controller implements HasMiddleware
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Book $book)
+    public function update(UpdateBookRequest $request, Book $book)
     {
-        $request->validate([
-            'judul' => 'required',
-            'penulis' => 'required',
-            'penerbit' => 'required',
-            'tahun_terbit' => 'required|digits:4|integer|min:1900|max:' . (date('Y') + 1),
-            'stok' => 'required|integer|min:0',
-            'category_id' => 'required|exists:categories,id'
-        ]);
 
         if ($request->hasFile('cover')) {
             if ($book->cover) {
@@ -140,12 +126,12 @@ class BookController extends Controller implements HasMiddleware
         }   
 
         $book->update([
-            'judul' => $request->judul,
-            'penulis' => $request->penulis,
-            'penerbit' => $request->penerbit,
-            'tahun_terbit' => $request->tahun_terbit,
-            'stok' => $request->stok,
-            'category_id' => $request->category_id,
+            'judul' => $request->validated('judul'),
+            'penulis' => $request->validated('penulis'),
+            'penerbit' => $request->validated('penerbit'),
+            'tahun_terbit' => $request->validated('tahun_terbit'),
+            'stok' => $request->validated('stok'),
+            'category_id' => $request->validated('category_id'),
             'cover' => $cover,
         ]);
 

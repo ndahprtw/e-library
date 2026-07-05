@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\StoreUserRequest;
+use App\Http\Requests\User\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
@@ -44,18 +46,11 @@ class UserController extends Controller implements HasMiddleware
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        $request->validate([
-            'nama' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:6',
-            'role' => 'required|exists:roles,name',
-        ]);
-
         $user = User::create([
-            'name' => $request->nama,
-            'email' => $request->email,
+            'name' => $request->validated('nama'),
+            'email' => $request->validated('email'),
             'password' => bcrypt($request->password),
         ]);
 
@@ -84,17 +79,11 @@ class UserController extends Controller implements HasMiddleware
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        $request->validate([
-            'nama' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id,
-            'role' => 'required|exists:roles,name',
-        ]);
-
         $user->update([
-            'name' => $request->nama,
-            'email' => $request->email,
+            'name' => $request->validated('nama'),
+            'email' => $request->validated('email'),
             'password' => $request->password ? bcrypt($request->password) : $user->password,
         ]);
 
