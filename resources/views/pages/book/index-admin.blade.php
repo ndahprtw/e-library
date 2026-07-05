@@ -34,11 +34,12 @@
                                 <a href="{{ route('buku.index') }}" class="btn btn-primary mx-3"><i class="ti ti-refresh"></i></a>
                             </form>
 
-                            @can('create books')
-                                <div class="d-flex gap-2">
+                            <div class="d-flex gap-2">
+                                @can('create books')
                                     <a href="{{ route('buku.create') }}" class="btn btn-primary">Tambah Data</a>
-                                </div>
-                            @endcan
+                                @endcan
+                                <a href="/buku/export/pdf" target="_blank" class="btn btn-danger"><i class="ti ti-download"></i></a>
+                            </div>
                         </div>
 
                         @if(session('success'))

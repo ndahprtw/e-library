@@ -35,6 +35,8 @@ Route::middleware('auth')->group(function () {
         ])
         ->names('role-permissions');
     Route::resource('categories', CategoryController::class)->names('kategori');
+    Route::get('/buku/export/pdf', [BookController::class, 'exportPdf'])->name('buku.export.pdf');
+    Route::get('/buku/export/excel', [BookController::class, 'exportExcel'])->name('buku.export.excel');
     Route::resource('books', BookController::class)->names('buku');
     Route::resource('borrowings', BorrowingController::class)->names('peminjaman');
 });
