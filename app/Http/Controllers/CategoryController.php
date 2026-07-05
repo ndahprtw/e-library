@@ -6,9 +6,21 @@ use App\Http\Controllers\Controller;
 use App\Models\Book;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class CategoryController extends Controller
+class CategoryController extends Controller implements HasMiddleware
 {
+        public static function middleware(): array
+    {
+        return [
+            new Middleware('permission:view categories', only: ['index', 'show']),
+            new Middleware('permission:create categories', only: ['create', 'store']),
+            new Middleware('permission:edit categories', only: ['edit', 'update']),
+            new Middleware('permission:delete categories', only: ['destroy']),
+        ];
+    }
+
     public function index(Request $request) {
         $data = Category::query()
             ->with('book')
@@ -37,8 +49,15 @@ class CategoryController extends Controller
         return redirect()->route('kategori.index')->with('success', 'Kategori berhasil ditambahkan.');
     }   
 
-    public function show(Category $category) {
-        $book = Book::with('category')->where('category_id', $category->id)->get();
+    public function show(Request $request, Category $category) {
+        $book = Book::query()
+                ->with('category')
+                ->where('category_id', $category->id)
+                ->when($request->search, function ($query) use ($request) {
+                    $query->where('judul', 'like', "%{$request->search}%");
+                })
+                ->orderBy('judul')
+                ->get();
         return view('pages.category.show', compact('category', 'book'));
     }
 

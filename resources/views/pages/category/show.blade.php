@@ -29,6 +29,14 @@
                 <div class="card">
                     <div class="card-body">
 
+                        <div class="d-flex justify-content-between align-items-center my-3">
+                            <p>{{ $book->count() }} Judul Terkait</p>
+                            <form action="{{ route('kategori.show', $category->id) }}" method="GET" class="d-flex">
+                                <input class="form-control" type="text" name="search" value="{{ request('search') }}" placeholder="Cari Judul Buku">
+                                <a href="{{ route('kategori.show', $category->id) }}" class="btn btn-primary mx-3"><i class="ti ti-refresh"></i></a>
+                            </form>
+                        </div>
+
                         @if(session('success'))
                             <div class="alert customize-alert alert-dismissible border-success text-success fade show remove-close-icon" role="alert">
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -60,6 +68,7 @@
                                         <th>Penerbit</th>
                                         <th>Tahun Terbit</th>
                                         <th>Stok</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -80,6 +89,9 @@
                                             <td> {{ $item->penerbit }} </td>
                                             <td> {{ $item->tahun_terbit }} </td>
                                             <td> {{ $item->stok }} </td>
+                                            <td>
+                                                <a href="{{ route('buku.show', $item->id) }}" class="btn btn-primary">Pinjam</a>
+                                            </td>
                                         </tr>
                                     @empty
                                         <p class="text-danger">

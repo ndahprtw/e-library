@@ -70,31 +70,35 @@
                                             <td> {{ $item->tanggal_peminjaman }} </td>
                                             <td> {{ $item->tanggal_jatuh_tempo }} </td>
                                             <td>
-                                                @if ($item->status == 'dipinjam')        
-                                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#samedata-modal{{ $item->id }}"> Terima </button>
-                                                    <div class="modal fade" id="samedata-modal{{ $item->id }}" tabindex="-1" aria-labelledby="exampleModalLabel1">
-                                                        <div class="modal-dialog" role="document">
-                                                            <div class="modal-content">
-                                                                <form action="{{ route('peminjaman.update', $item->id) }}" method="post">
-                                                                    @csrf
-                                                                    @method('put')
-                                                                    <div class="modal-header d-flex align-items-center">
-                                                                        <h4 class="modal-title" id="exampleModalLabel1"> Konfirmasi Pengembalian Buku </h4>
-                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                @if ($item->status == 'dipinjam') 
+                                                        @can('return books')
+                                                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#samedata-modal{{ $item->id }}"> Terima </button>
+                                                            <div class="modal fade" id="samedata-modal{{ $item->id }}" tabindex="-1" aria-labelledby="exampleModalLabel1">
+                                                                <div class="modal-dialog" role="document">
+                                                                    <div class="modal-content">
+                                                                        <form action="{{ route('peminjaman.update', $item->id) }}" method="post">
+                                                                            @csrf
+                                                                            @method('put')
+                                                                            <div class="modal-header d-flex align-items-center">
+                                                                                <h4 class="modal-title" id="exampleModalLabel1"> Konfirmasi Pengembalian Buku </h4>
+                                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                <p class="text-center">
+                                                                                    Apakah anda yakin ingin menandai buku <br> <strong>{{ $item->book->judul }}</strong> <br> sebagai dikembalikan?
+                                                                                </p>
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <button type="button" class="btn btn-light-danger text-danger font-medium" data-bs-dismiss="modal"> Close </button>
+                                                                                <button type="submit" class="btn btn-success"> Yakin </button>
+                                                                            </div>
+                                                                        </form>  
                                                                     </div>
-                                                                    <div class="modal-body">
-                                                                        <p class="text-center">
-                                                                            Apakah anda yakin ingin menandai buku <br> <strong>{{ $item->book->judul }}</strong> <br> sebagai dikembalikan?
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-light-danger text-danger font-medium" data-bs-dismiss="modal"> Close </button>
-                                                                        <button type="submit" class="btn btn-success"> Yakin </button>
-                                                                    </div>
-                                                                </form>  
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </div>
+                                                        @else
+                                                            <span class="badge bg-primary">Dipinjam</span>
+                                                        @endcan
                                                 @else
                                                     @if ($item->status == 'terlambat')
                                                         <span class="badge bg-danger">Terlambat</span>
@@ -102,7 +106,6 @@
                                                         <span class="badge bg-success">Dikembalikan</span>
                                                     @endif
                                                 @endif
-
                                             </td>
                                         </tr>
                                     @empty

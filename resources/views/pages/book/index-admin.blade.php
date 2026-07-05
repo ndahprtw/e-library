@@ -31,12 +31,14 @@
                         <div class="d-flex justify-content-between align-items-center my-3">
                             <form action="{{ route('buku.index') }}" method="GET" class="d-flex">
                                 <input class="form-control" type="text" name="search" value="{{ request('search') }}" placeholder="Cari Judul Buku">
-                                <a href="{{ route('user.index') }}" class="btn btn-primary mx-3"><i class="ti ti-refresh"></i></a>
+                                <a href="{{ route('buku.index') }}" class="btn btn-primary mx-3"><i class="ti ti-refresh"></i></a>
                             </form>
 
-                            <div class="d-flex gap-2">
-                                <a href="{{ route('buku.create') }}" class="btn btn-primary">Tambah Data</a>
-                            </div>
+                            @can('create books')
+                                <div class="d-flex gap-2">
+                                    <a href="{{ route('buku.create') }}" class="btn btn-primary">Tambah Data</a>
+                                </div>
+                            @endcan
                         </div>
 
                         @if(session('success'))
@@ -92,31 +94,34 @@
                                             <td> {{ $item->tahun_terbit }} </td>
                                             <td> {{ $item->stok }} </td>
                                             <td>
-                                                <a href="{{ route('buku.edit', $item->id) }}" class="btn btn-primary">Edit</a>
+                                                @can('edit books')
+                                                    <a href="{{ route('buku.edit', $item->id) }}" class="btn btn-primary">Edit</a>
+                                                @endcan
 
-                                               <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#samedata-modal{{ $item->id }}"> Hapus </button>
-                                                <div class="modal fade" id="samedata-modal{{ $item->id }}" tabindex="-1" aria-labelledby="exampleModalLabel1">
-                                                    <div class="modal-dialog" role="document">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header d-flex align-items-center">
-                                                                <h4 class="modal-title" id="exampleModalLabel1"> Hapus Buku </h4>
-                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                @can('delete books')    
+                                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#samedata-modal{{ $item->id }}"> Hapus </button>
+                                                    <div class="modal fade" id="samedata-modal{{ $item->id }}" tabindex="-1" aria-labelledby="exampleModalLabel1">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header d-flex align-items-center">
+                                                                    <h4 class="modal-title" id="exampleModalLabel1"> Hapus Buku </h4>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                </div>
+                                                                <form action="{{ route('buku.destroy', $item->id) }}" method="post">
+                                                                    @csrf
+                                                                    @method('delete')
+                                                                    <div class="modal-body">
+                                                                        Apakah anda yakin ingin menghapus buku <strong>{{ $item->judul }}</strong>?
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-light-danger text-danger font-medium" data-bs-dismiss="modal"> Close </button>
+                                                                        <button type="submit" class="btn btn-success"> Yakin </button>
+                                                                    </div>
+                                                                </form>  
                                                             </div>
-                                                            <form action="{{ route('buku.destroy', $item->id) }}" method="post">
-                                                                @csrf
-                                                                @method('delete')
-                                                                <div class="modal-body">
-                                                                    Apakah anda yakin ingin menghapus buku <strong>{{ $item->judul }}</strong>?
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-light-danger text-danger font-medium" data-bs-dismiss="modal"> Close </button>
-                                                                    <button type="submit" class="btn btn-success"> Yakin </button>
-                                                                </div>
-                                                            </form>  
                                                         </div>
                                                     </div>
-                                                </div>
-
+                                                @endcan
                                             </td>
                                         </tr>
                                     @empty

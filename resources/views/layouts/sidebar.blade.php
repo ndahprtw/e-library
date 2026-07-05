@@ -27,63 +27,79 @@
           </a>
         </li>
 
-        <li class="nav-small-cap">
-          <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-          <span class="hide-menu">User</span>
-        </li>
-        <li class="sidebar-item">
-          <a class="sidebar-link" href="{{ route('role.index') }}" aria-expanded="false">
-            <span>
-              <i class="ti ti-user-shield"></i>
-            </span>
-            <span class="hide-menu">Role</span>
-          </a>
-        </li>
-        <li class="sidebar-item">
-          <a class="sidebar-link" href="{{ route('akses.index') }}" aria-expanded="false">
-            <span>
-              <i class="ti ti-shield-lock"></i>
-            </span>
-            <span class="hide-menu">Akses</span>
-          </a>
-        </li>
-        <li class="sidebar-item">
-          <a class="sidebar-link" href="{{ route('user.index') }}" aria-expanded="false">
-            <span>
-              <i class="ti ti-user"></i>
-            </span>
+        @canany(['manage roles', 'manage permissions', 'manage users'])
+          <li class="nav-small-cap">
+            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
             <span class="hide-menu">User</span>
-          </a>
-        </li>
+          </li>
+          @can('manage roles')
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{{ route('role.index') }}" aria-expanded="false">
+                <span>
+                  <i class="ti ti-user-shield"></i>
+                </span>
+                <span class="hide-menu">Role</span>
+              </a>
+            </li>
+          @endcan
+          @can('manage permissions')
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{{ route('akses.index') }}" aria-expanded="false">
+                <span>
+                  <i class="ti ti-shield-lock"></i>
+                </span>
+                <span class="hide-menu">Akses</span>
+              </a>
+            </li>
+          @endcan
+          @can('manage users')          
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{{ route('user.index') }}" aria-expanded="false">
+                <span>
+                  <i class="ti ti-user"></i>
+                </span>
+                <span class="hide-menu">User</span>
+              </a>
+            </li>
+          @endcan
+        @endcanany
 
-        <li class="nav-small-cap">
-          <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-          <span class="hide-menu">Book</span>
-        </li>
-        <li class="sidebar-item">
-          <a class="sidebar-link" href="{{ route('kategori.index') }}" aria-expanded="false">
-            <span>
-              <i class="ti ti-tag"></i>
-            </span>
-            <span class="hide-menu">Kategori</span>
-          </a>
-        </li>
-        <li class="sidebar-item">
-          <a class="sidebar-link" href="{{ route('buku.index') }}" aria-expanded="false">
-            <span>
-              <i class="ti ti-books"></i>
-            </span>
-            <span class="hide-menu">Buku</span>
-          </a>
-        </li>
-        <li class="sidebar-item">
-          <a class="sidebar-link" href="{{ route('peminjaman.index') }}" aria-expanded="false">
-            <span>
-              <i class="ti ti-book-download"></i>
-            </span>
-            <span class="hide-menu">Peminjaman</span>
-          </a>
-        </li>
+        @canany(['view categories', 'view books', 'view borrow'])
+          <li class="nav-small-cap">
+            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+            <span class="hide-menu">Book</span>
+          </li>
+          @can('view categories')
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{{ route('kategori.index') }}" aria-expanded="false">
+                <span>
+                  <i class="ti ti-tag"></i>
+                </span>
+                <span class="hide-menu">Kategori</span>
+              </a>
+            </li>
+          @endcan
+          @can('view books')
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{{ route('buku.index') }}" aria-expanded="false">
+                <span>
+                  <i class="ti ti-books"></i>
+                </span>
+                <span class="hide-menu">Buku</span>
+              </a>
+            </li>
+          @endcan
+          @can('view borrow')
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{{ route('peminjaman.index') }}" aria-expanded="false">
+                <span>
+                  <i class="ti ti-book-download"></i>
+                </span>
+                <span class="hide-menu">Peminjaman</span>
+              </a>
+            </li>
+          @endcan
+        @endcanany
         <li class="sidebar-item">
             <form method="POST" action="{{ route('logout') }}">
                 @csrf

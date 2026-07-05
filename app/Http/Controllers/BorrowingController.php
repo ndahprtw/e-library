@@ -7,15 +7,30 @@ use App\Models\Book;
 use App\Models\Borrowing;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
-class BorrowingController extends Controller
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+class BorrowingController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('permission:view borrow', only: ['index']),
+            new Middleware('permission:borrow books', only: ['create']),
+            new Middleware('permission:return books', only: ['update']),
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $data = Borrowing::with(['book', 'user'])->orderBy('tanggal_peminjaman', 'desc')->get();
+        if (Auth::user()->hasRole('User')) {
+            $data = Borrowing::with(['book', 'user'])->where('user_id', Auth::user()->id)->orderBy('tanggal_peminjaman', 'desc')->get();
+        } else {
+            $data = Borrowing::with(['book', 'user'])->orderBy('tanggal_peminjaman', 'desc')->get();
+        }
         return view('pages.borrowing.index', compact('data'));
     }
 
@@ -44,7 +59,7 @@ class BorrowingController extends Controller
             Borrowing::create([
                 'tanggal_peminjaman' => now(),
                 'tanggal_jatuh_tempo' => now()->addDays(7),
-                'user_id' => auth()->user()->id,
+                'user_id' => Auth::user()->id,
                 'book_id' => $book->id,
                 'status' => 'dipinjam',
             ]);

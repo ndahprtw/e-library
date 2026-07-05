@@ -6,27 +6,54 @@ use App\Http\Controllers\Controller;
 use App\Models\Book;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class BookController extends Controller
+class BookController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('permission:view books', only: ['index', 'show']),
+            new Middleware('permission:create books', only: ['create', 'store']),
+            new Middleware('permission:edit books', only: ['edit', 'update']),
+            new Middleware('permission:delete books', only: ['destroy']),
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $data = Book::query()
-            ->with('category')
-            ->when($request->search, function ($query) use ($request) {
-                $query->where('judul', 'like', "%{$request->search}%");
-            })
-            ->orderBy('judul')
-        //     ->paginate(5);
-        // return view('pages.book.index-admin', compact('data'));
+        if (Auth::user()->hasRole('User')) {
+
+            $data = Book::query()
+                ->with('category')
+                ->when($request->search, function ($query) use ($request) {
+                    $query->where('judul', 'like', "%{$request->search}%");
+                })
+                ->orderBy('judul')
+                ->get();
+            $kategori = Category::orderBy('nama_kategori')->get();
+            return view('pages.book.index-user', compact('data', 'kategori'));
+
+        } else {
+
+            $data = Book::query()
+                ->with('category')
+                ->when($request->search, function ($query) use ($request) {
+                    $query->where('judul', 'like', "%{$request->search}%");
+                })
+                ->orderBy('judul')
+                ->paginate(5);
+            return view('pages.book.index-admin', compact('data'));
+
+        }
         
-            ->get();
-        $kategori = Category::orderBy('nama_kategori')->get();
-        return view('pages.book.index-user', compact('data', 'kategori'));
+        
     }
 
     /**

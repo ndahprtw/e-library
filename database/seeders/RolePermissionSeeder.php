@@ -14,23 +14,24 @@ class RolePermissionSeeder extends Seeder
     public function run(): void
     {
         $permissions = [
-            'view books',
-            'create books',
-            'edit books',
-            'delete books',
-
-            'borrow books',
-            'return books',
-
+            'manage users',
+            'manage roles',
+            'manage permissions',
+            'manage role-permissions',
+            
             'view categories',
             'create categories',
             'edit categories',
             'delete categories',
 
-            'view users',
-            'create users',
-            'edit users',
-            'delete users',
+            'view books',
+            'create books',
+            'edit books',
+            'delete books',
+
+            'view borrow',
+            'borrow books',
+            'return books', 
         ];
 
         foreach ($permissions as $permission) {
@@ -49,15 +50,16 @@ class RolePermissionSeeder extends Seeder
             'name' => 'Petugas'
         ]);
         $petugas->syncPermissions([
+            'view categories',
+            'create categories',
+            'edit categories',
+
             'view books',
             'create books',
             'edit books',
             
+            'view borrow',
             'return books',
-
-            'view categories',
-            'create categories',
-            'edit categories',
         ]);
 
 
@@ -65,10 +67,10 @@ class RolePermissionSeeder extends Seeder
             'name' => 'User'
         ]);
         $user->syncPermissions([
+            'view categories',
             'view books',
             'borrow books',
-
-            'view categories',
+            'view borrow',
         ]);
     }
 }

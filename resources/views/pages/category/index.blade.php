@@ -33,7 +33,9 @@
                                 <input class="form-control" type="text" name="search" value="{{ request('search') }}" placeholder="Cari Kategori">
                                 <a href="{{ route('user.index') }}" class="btn btn-primary mx-3"><i class="ti ti-refresh"></i></a>
                             </form>
-                            <a href="{{ route('kategori.create') }}" class="btn btn-primary">Tambah Data</a>
+                            @can('create categories')
+                                <a href="{{ route('kategori.create') }}" class="btn btn-primary">Tambah Data</a>
+                            @endcan
                         </div>
 
                         @if(session('success'))
@@ -70,30 +72,34 @@
                                                 @endif
                                             </td>
                                             <td class="d-flex gap-2">
-                                                <a href="{{ route('kategori.edit', $item->id) }}" class="btn btn-primary">Edit</a>
+                                                @can('edit categories')
+                                                    <a href="{{ route('kategori.edit', $item->id) }}" class="btn btn-primary">Edit</a>
+                                                @endcan
 
-                                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#samedata-modal{{ $item->id }}"> Hapus </button>
-                                                <div class="modal fade" id="samedata-modal{{ $item->id }}" tabindex="-1" aria-labelledby="exampleModalLabel1">
-                                                    <div class="modal-dialog" role="document">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header d-flex align-items-center">
-                                                                <h4 class="modal-title" id="exampleModalLabel1"> Hapus Kategori </h4>
-                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                @can('delete categories')      
+                                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#samedata-modal{{ $item->id }}"> Hapus </button>
+                                                    <div class="modal fade" id="samedata-modal{{ $item->id }}" tabindex="-1" aria-labelledby="exampleModalLabel1">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header d-flex align-items-center">
+                                                                    <h4 class="modal-title" id="exampleModalLabel1"> Hapus Kategori </h4>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                </div>
+                                                                <form action="{{ route('kategori.destroy', $item->id) }}" method="post">
+                                                                    @csrf
+                                                                    @method('delete')
+                                                                    <div class="modal-body">
+                                                                        Apakah anda yakin ingin menghapus kategori <strong>{{ $item->nama_kategori }}</strong>?
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-light-danger text-danger font-medium" data-bs-dismiss="modal"> Close </button>
+                                                                        <button type="submit" class="btn btn-success"> Yakin </button>
+                                                                    </div>
+                                                                </form>  
                                                             </div>
-                                                            <form action="{{ route('kategori.destroy', $item->id) }}" method="post">
-                                                                @csrf
-                                                                @method('delete')
-                                                                <div class="modal-body">
-                                                                    Apakah anda yakin ingin menghapus kategori <strong>{{ $item->nama_kategori }}</strong>?
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-light-danger text-danger font-medium" data-bs-dismiss="modal"> Close </button>
-                                                                    <button type="submit" class="btn btn-success"> Yakin </button>
-                                                                </div>
-                                                            </form>  
                                                         </div>
                                                     </div>
-                                                </div>
+                                                @endcan
                                             </td>
                                         </tr>
                                     @empty
