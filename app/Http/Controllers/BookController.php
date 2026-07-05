@@ -9,6 +9,8 @@ use App\Models\Book;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Exports\LibraryExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Routing\Controllers\Middleware;
@@ -166,5 +168,13 @@ class BookController extends Controller implements HasMiddleware
 
         // jika ingin menampilkan preview PDF
         return $pdf->stream('laporan-buku-' . now()->format('d-m-Y') . '.pdf');
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(
+            new LibraryExport(),
+            'laporan-perpustakaan-' . now()->format('Y-m-d') . '.xlsx'
+        );
     }
 }

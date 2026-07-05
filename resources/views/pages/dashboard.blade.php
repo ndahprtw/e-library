@@ -189,66 +189,72 @@
     <div class="row">
     <!-- Ringkasan Peminjaman -->
     <div class="col-lg-4 d-flex align-items-strech">
-        <div class="card w-100">
-        <div class="card-body">
-            <h5 class="card-title fw-semibold">Ringkasan Peminjaman</h5>
-            <p class="card-subtitle mb-0">Statistik Perpusatakaan</p>
-            <div id="stats" class="my-4"></div>
-            <div class="position-relative">
-
-                <div class="d-flex align-items-center justify-content-between mb-4">
-                    <div class="d-flex">
-                        <div class="p-2 bg-light-primary rounded me-3">
-                            <i class="ti ti-book-download text-primary"></i>
-                        </div>
-
-                        <div>
-                            <h6 class="mb-1 fw-semibold">Total Peminjaman</h6>
-                            <p class="fs-3 mb-0">Seluruh transaksi</p>
-                        </div>
-                    </div>
-
-                    <span class="badge bg-light-primary text-primary">
-                        {{ $totalPeminjaman }}
-                    </span>
+        <div>     
+            <div class="card bg-success w-100">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <p class="fw-bold text-white">Rekap Data E-Library (.xlsx)</p>
+                    <a href="/buku/export/excel" class="btn btn-primary"><i class="ti ti-file-spreadsheet"></i></a>
                 </div>
-
-                <div class="d-flex align-items-center justify-content-between mb-4">
-                    <div class="d-flex">
-                        <div class="p-2 bg-light-success rounded me-3">
-                            <i class="ti ti-books text-success"></i>
-                        </div>
-
-                        <div>
-                            <h6 class="mb-1 fw-semibold">Sedang Dipinjam</h6>
-                            <p class="fs-3 mb-0">Belum dikembalikan</p>
-                        </div>
-                    </div>
-
-                    <span class="badge bg-light-success text-success">
-                        {{ $totalDipinjam }}
-                    </span>
-                </div>
-
-                <div class="d-flex align-items-center justify-content-between">
-                    <div class="d-flex">
-                        <div class="p-2 bg-light-danger rounded me-3">
-                            <i class="ti ti-clock-exclamation text-danger"></i>
-                        </div>
-
-                        <div>
-                            <h6 class="mb-1 fw-semibold">Terlambat</h6>
-                            <p class="fs-3 mb-0">Belum dikembalikan tepat waktu</p>
-                        </div>
-                    </div>
-
-                    <span class="badge bg-light-danger text-danger">
-                        {{ $totalTerlambat }}
-                    </span>
-                </div>
-
             </div>
-        </div>
+            <div class="card w-100">
+                <div class="card-body">
+                    <h5 class="card-title fw-semibold mb-5">Ringkasan Peminjaman</h5>
+                    <div class="position-relative">
+    
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <div class="d-flex">
+                                <div class="p-2 bg-light-primary rounded me-3">
+                                    <i class="ti ti-book-download text-primary"></i>
+                                </div>
+    
+                                <div>
+                                    <h6 class="mb-1 fw-semibold">Total Peminjaman</h6>
+                                    <p class="fs-3 mb-0">Seluruh transaksi</p>
+                                </div>
+                            </div>
+    
+                            <span class="badge bg-light-primary text-primary">
+                                {{ $totalPeminjaman }}
+                            </span>
+                        </div>
+    
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <div class="d-flex">
+                                <div class="p-2 bg-light-success rounded me-3">
+                                    <i class="ti ti-books text-success"></i>
+                                </div>
+    
+                                <div>
+                                    <h6 class="mb-1 fw-semibold">Sedang Dipinjam</h6>
+                                    <p class="fs-3 mb-0">Belum dikembalikan</p>
+                                </div>
+                            </div>
+    
+                            <span class="badge bg-light-success text-success">
+                                {{ $totalDipinjam }}
+                            </span>
+                        </div>
+    
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="d-flex">
+                                <div class="p-2 bg-light-danger rounded me-3">
+                                    <i class="ti ti-clock-exclamation text-danger"></i>
+                                </div>
+    
+                                <div>
+                                    <h6 class="mb-1 fw-semibold">Terlambat</h6>
+                                    <p class="fs-3 mb-0">Belum dikembalikan tepat waktu</p>
+                                </div>
+                            </div>
+    
+                            <span class="badge bg-light-danger text-danger">
+                                {{ $totalTerlambat }}
+                            </span>
+                        </div>
+    
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <!-- Peminjaman Hari Ini -->
