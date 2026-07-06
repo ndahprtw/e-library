@@ -67,8 +67,8 @@
                                             <td> {{ $item->book->judul }} </td>
                                             <td> {{ $item->book->category->nama_kategori }} </td>
                                             <td> {{ $item->user->name }} </td>
-                                            <td> {{ $item->tanggal_peminjaman }} </td>
-                                            <td> {{ $item->tanggal_jatuh_tempo }} </td>
+                                            <td>{{ \Carbon\Carbon::parse($item->tanggal_peminjaman)->format('d-m-Y') }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($item->tanggal_jatuh_tempo)->format('d-m-Y') }}</td>
                                             <td>
                                                 @if ($item->status == 'dipinjam') 
                                                         @can('return books')

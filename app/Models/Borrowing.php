@@ -8,6 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Borrowing extends Model
 {
+    protected function casts(): array
+    {
+        return [
+            'tanggal_peminjaman' => 'date',
+            'tanggal_jatuh_tempo' => 'date',
+            'tanggal_pengembalian' => 'date',
+        ];
+    }
+    
     protected $fillable = [
         'book_id',
         'user_id',
