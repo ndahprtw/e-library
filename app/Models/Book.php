@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Borrowing;
 use App\Models\Category;
+use App\Models\Reminder;
 use Illuminate\Database\Eloquent\Model;
 
 class Book extends Model
@@ -26,5 +27,10 @@ class Book extends Model
     public function borrows()
     {
         return $this->hasMany(Borrowing::class);
+    }
+
+    public function reminders()
+    {
+        return $this->hasMany(Reminder::class);
     }
 }

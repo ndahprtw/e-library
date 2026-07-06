@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReminderController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RolePermissionController;
 use App\Http\Controllers\UserController;
@@ -35,10 +36,12 @@ Route::middleware('auth')->group(function () {
         ])
         ->names('role-permissions');
     Route::resource('categories', CategoryController::class)->names('kategori');
+    Route::resource('reminders', ReminderController::class)->names('pengingat');
     Route::get('/buku/export/pdf', [BookController::class, 'exportPdf'])->name('buku.export.pdf');
     Route::get('/buku/export/excel', [BookController::class, 'exportExcel'])->name('buku.export.excel');
     Route::resource('books', BookController::class)->names('buku');
     Route::resource('borrowings', BorrowingController::class)->names('peminjaman');
+    Route::get('/notifications/{id}', [BorrowingController::class, 'read'])->name('notifications.read');
 });
 
 require __DIR__.'/auth.php';

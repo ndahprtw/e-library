@@ -18,7 +18,7 @@ class BookSeeder extends Seeder
             'penulis' => 'Andrea Hirata',
             'penerbit' => 'Bentang Pustaka',
             'tahun_terbit' => 2005,
-            'stok' => 10,
+            'stok' => 1,
             'category_id' => 1,
         ]);
 

@@ -44,7 +44,7 @@
 </div>
 <div class="mb-3">
     <label class="form-label" for="stok"> Stok </label>
-    <input class="form-control @error('stok') is-invalid @enderror" type="number" name="stok" id="stok" value="{{ old('stok', $book?->stok ?? '') }}">
+    <input class="form-control @error('stok') is-invalid @enderror" type="number" name="stok" id="stok" value="{{ old('stok', $book?->stok ?? '') }}" @if(isset($book)) disabled @endif>
     @error('stok') 
         <div class="invalid-feedback">{{ $message }}</div>
     @enderror

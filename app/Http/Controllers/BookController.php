@@ -41,7 +41,7 @@ class BookController extends Controller implements HasMiddleware
                 ->when($request->search, function ($query) use ($request) {
                     $query->where('judul', 'like', "%{$request->search}%");
                 })
-                ->orderBy('judul')
+                ->orderBy('stok', 'desc')
                 ->get();
             $kategori = Category::orderBy('nama_kategori')->get();
             return view('pages.book.index-user', compact('data', 'kategori'));

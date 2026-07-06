@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Book;
 use App\Models\Borrowing;
+use App\Notifications\BookAvailableNotification;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
 class BorrowingController extends Controller implements HasMiddleware
 {
     public static function middleware(): array
@@ -91,7 +93,7 @@ class BorrowingController extends Controller implements HasMiddleware
     {
 
         DB::transaction(function () use ($borrowing) {
-            $book = Book::findOrFail($borrowing['book_id']);
+            $book = Book::with('reminders.user')->findOrFail($borrowing->book_id);
             $book->increment('stok');
 
             if($borrowing->tanggal_jatuh_tempo < now()) {
@@ -105,6 +107,15 @@ class BorrowingController extends Controller implements HasMiddleware
                     'status' => 'dikembalikan',
                 ]);
             }
+
+             foreach ($book->reminders as $reminder) {
+                $reminder->user->notify(
+                    new BookAvailableNotification($book)
+                );
+
+                $reminder->delete();
+            }
+
         });
 
         return redirect()->route('peminjaman.index')->with('success', 'Buku yang dipinjam berhasil dikembalikan.');
@@ -116,5 +127,12 @@ class BorrowingController extends Controller implements HasMiddleware
     public function destroy(Borrowing $borrowing)
     {
         //
+    }
+
+    public function read($id)
+    {
+        $notification = Auth::user()->notifications()->findOrFail($id);
+        $notification->markAsRead();
+        return redirect()->back();
     }
 }

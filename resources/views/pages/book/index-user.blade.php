@@ -23,6 +23,16 @@
         </div>
     </div>
 
+    @if(session('success'))
+      <div class="alert customize-alert alert-dismissible border-success text-success fade show remove-close-icon" role="alert">
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          <div class="d-flex align-items-center font-medium me-3 me-md-0">
+              <i class="ti ti-info-circle fs-5 me-2 text-success"></i>
+              {{ session('success') }}
+          </div>
+      </div>
+    @endif
+
     <div class="card position-relative overflow-hidden">
       <div class="shop-part d-flex w-100">
         <div class="shop-filters flex-shrink-0 border-end d-none d-lg-block">
@@ -88,20 +98,20 @@
                     @if ($item->stok > 0)
                       <a href="{{ route('buku.show', $item->id) }}" class="bg-primary rounded-circle p-2 text-white d-inline-flex position-absolute bottom-0 end-0 mb-n3 me-3" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Pinjam Buku"><i class="ti ti-book fs-4"></i></a>
                     @else
-                      <button class="bg-secondary rounded-circle p-2 text-white d-inline-flex position-absolute bottom-0 end-0 mb-n3 me-3" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Stok Habis"><i class="ti ti-book fs-4"></i></button>
+                      <a href="{{ route('buku.show', $item->id) }}" class="bg-warning rounded-circle p-2 text-white d-inline-flex position-absolute bottom-0 end-0 mb-n3 me-3" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Stok Habis"><i class="ti ti-book fs-4"></i></a>
                     @endif
                   </div>
                   <div class="card-body pt-3 p-4">
                     <h6 class="fw-semibold fs-4">{{ $item->judul }}</h6>
                     <div class="d-flex align-items-center justify-content-between">
                       <h6 class="fw-semibold fs-4 mb-0">{{ $item->stok }} <span class="ms-2 fw-normal text-muted fs-3"> tersedia</h6>
-                      <ul class="list-unstyled d-flex align-items-center mb-0">
+                      {{-- <ul class="list-unstyled d-flex align-items-center mb-0">
                         <li><a class="me-1" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
                         <li><a class="me-1" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
                         <li><a class="me-1" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
                         <li><a class="me-1" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
                         <li><a class="" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
-                      </ul>
+                      </ul> --}}
                     </div>
                   </div>
                 </div>

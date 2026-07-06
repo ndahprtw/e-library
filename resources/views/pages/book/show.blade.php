@@ -41,7 +41,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-body">
-                        <form action="{{ route('peminjaman.store') }}" method="post">
+                        <form action="{{ $book->stok > 0 ? route('peminjaman.store') : route('pengingat.store') }}" method="POST">
                             @csrf
 
                             <input type="hidden" name="book_id" value="{{ $book->id }}">
@@ -52,18 +52,21 @@
                             <p><strong>Tahun Terbit :</strong> {{ $book->tahun_terbit }}</p>
                             <p><strong>Stok :</strong> {{ $book->stok }}</p>
 
-                            <p class="text-danger">
-                                <b>Note :</b> <br> Durasi Peminjaman Buku adalah 7 Hari, Jika Melebihi Batas Waktu Akan Dikenakan Denda Rp. 1000/Hari
-                            </p>
-
-                            <p><strong>Tanggal Peminjaman :</strong> {{ now()->format('d-m-Y') }}</p>
-                            <p><strong>Tanggal Pengembalian :</strong> {{ now()->addDays(7)->format('d-m-Y') }}</p>
+                            
+                            @if ($book->stok > 0)
+                                <p class="text-danger">
+                                    <b>Note :</b> <br> Durasi Peminjaman Buku adalah 7 Hari, Jika Melebihi Batas Waktu Akan Dikenakan Denda Rp. 1000/Hari
+                                </p>
+                                
+                                <p><strong>Tanggal Peminjaman :</strong> {{ now()->format('d-m-Y') }}</p>
+                                <p><strong>Tanggal Pengembalian :</strong> {{ now()->addDays(7)->format('d-m-Y') }}</p>
+                            @endif
 
                             <div class="d-flex justify-content-center align-items-center">
                                 @if ($book->stok > 0)
                                     <button type="submit" class="btn btn-primary">Pinjam Buku</button>
                                 @else
-                                    <button type="button" class="btn btn-secondary" disabled>Stok Habis</button>
+                                    <button type="submit" class="btn btn-secondary">Ingatkan Saya</button>
                                 @endif
                             </div>
 
