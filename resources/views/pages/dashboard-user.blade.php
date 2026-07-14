@@ -31,24 +31,24 @@
         </div>
     </div>
     <div class="col-sm-6 col-lg-2 d-flex align-items-stretch">
-        <div class="card w-100">
+        <div class="card w-100 bg-secondary">
         <div class="card-body">
             <div class="p-2 bg-light-primary rounded-2 d-inline-block mb-3">
-            <img src="{{ asset('assets/images/svgs/icon-cart.svg') }}" alt="" class="img-fluid" width="24" height="24">
+                <i class="ti ti-books fs-6"></i>
             </div>
-            <h4 class="mb-1 fw-semibold d-flex align-content-center">$16.5k<i class="ti ti-arrow-up-right fs-5 text-success"></i></h4>
-            <p class="mb-0">Total Peminjaman</p>
+            <h4 class="mb-1 fw-semibold d-flex align-content-center">{{ $totalPeminjaman }}</h4>
+            <p class="mb-0 text-light">Total Peminjaman</p>
         </div>
         </div>
     </div>
     <div class="col-sm-6 col-lg-2 d-flex align-items-stretch">
-        <div class="card w-100">
+        <div class="card w-100 bg-info">
         <div class="card-body">
             <div class="p-2 bg-light-primary rounded-2 d-inline-block mb-3">
-            <img src="{{ asset('assets/images/svgs/icon-cart.svg') }}" alt="" class="img-fluid" width="24" height="24">
+                <i class="ti ti-book fs-6"></i>
             </div>
-            <h4 class="mb-1 fw-semibold d-flex align-content-center">$16.5k<i class="ti ti-arrow-up-right fs-5 text-success"></i></h4>
-            <p class="mb-0">Sedang Dipinjam</p>
+            <h4 class="mb-1 fw-semibold d-flex align-content-center">{{ $totalDipinjam }}</h4>
+            <p class="mb-0 text-light">Sedang Dipinjam</p>
         </div>
         </div>
     </div>
@@ -62,17 +62,26 @@
                     <table class="table border table-striped table-bordered text-nowrap">
                         <thead>
                             <tr>
-                                <th>No.</th>
-                                <th>Cover</th>
                                 <th>Judul</th>
                                 <th>Kategori</th>
                                 <th>Penulis</th>
                                 <th>Penerbit</th>
-                                <th>Tahun Terbit</th>
                                 <th>Stok</th>
                                 <th></th>
                             </tr>
                         </thead>
+                        <tbody>
+                            @foreach ($rekomendasiBuku as $item)
+                                <tr>
+                                    <td> {{ $item->judul }} </td>
+                                    <td> {{ $item->category->nama_kategori }} </td>
+                                    <td> {{ $item->penulis }} </td>
+                                    <td> {{ $item->penerbit }} </td>
+                                    <td> {{ $item->stok }} </td>
+                                    <td> <a href="{{ route('buku.show', $item->id) }}" class="btn btn-sm btn-primary"> Pinjam </a> </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
                     </table>
                 </div>
         </div>
@@ -81,26 +90,24 @@
     <div class="col-lg-4">
         <div class="row">
         <div class="col-sm-6 d-flex align-items-stretch">
-            <div class="card w-100">
+            <div class="card w-100 bg-success">
             <div class="card-body">
                 <div class="p-2 bg-light-primary rounded-2 d-inline-block mb-3">
-                <img src="{{ asset('assets/images/svgs/icon-cart.svg') }}" alt="" class="img-fluid" width="24" height="24">
+                    <i class="ti ti-books fs-6"></i>
                 </div>
-                <div id="sales-two" class="mb-3"></div>
-                <h4 class="mb-1 fw-semibold d-flex align-content-center">$16.5k<i class="ti ti-arrow-up-right fs-5 text-success"></i></h4>
-                <p class="mb-0">Sudah Dikembalikan</p>
+                <h4 class="mb-1 fw-semibold d-flex align-content-center">{{ $totalDikembalikan }}</h4>
+                <p class="mb-0 text-light">Sudah Dikembalikan</p>
             </div>
             </div>
         </div>
         <div class="col-sm-6 d-flex align-items-stretch">
-            <div class="card w-100">
+            <div class="card w-100 bg-danger">
             <div class="card-body">
-                <div class="p-2 bg-light-info rounded-2 d-inline-block mb-3">
-                <img src="{{ asset('assets/images/svgs/icon-bar.svg') }}" alt="" class="img-fluid" width="24" height="24">
+                <div class="p-2 bg-light-danger rounded-2 d-inline-block mb-3">
+                    <i class="ti ti-book-2 fs-6"></i>
                 </div>
-                <div id="growth" class="mb-3"></div>
-                <h4 class="mb-1 fw-semibold d-flex align-content-center">24%<i class="ti ti-arrow-up-right fs-5 text-success"></i></h4>
-                <p class="mb-0">Terlambat</p>
+                <h4 class="mb-1 fw-semibold d-flex align-content-center">{{ $totalPengembalianTerlambat }}</h4>
+                <p class="mb-0 text-light">Terlambat</p>
             </div>
             </div>
         </div>

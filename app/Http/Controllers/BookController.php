@@ -36,14 +36,17 @@ class BookController extends Controller implements HasMiddleware
     {
         if (Auth::user()->hasRole('User')) {
 
-            $data = Book::query()
-                ->with('category')
-                ->when($request->search, function ($query) use ($request) {
-                    $query->where('judul', 'like', "%{$request->search}%");
-                })
-                ->orderBy('stok', 'desc')
-                ->get();
             $kategori = Category::orderBy('nama_kategori')->get();
+            $query = Book::query()
+                ->with('category')
+                ->when($request->search, function ($q) use ($request) {
+                    $q->where('judul', 'like', '%' . $request->search . '%');
+                });
+
+            if ($request->filled('kategori')) {
+                $query->where('category_id', $request->kategori);
+            }
+            $data = $query->get();
             return view('pages.book.index-user', compact('data', 'kategori'));
 
         } else {
@@ -56,10 +59,7 @@ class BookController extends Controller implements HasMiddleware
                 ->orderBy('judul')
                 ->paginate(5);
             return view('pages.book.index-admin', compact('data'));
-
         }
-        
-        
     }
 
     /**

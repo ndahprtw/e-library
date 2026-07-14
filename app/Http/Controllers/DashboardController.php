@@ -13,7 +13,16 @@ class DashboardController extends Controller
     public function index()
     {
         if (auth()->user()->hasRole('User')) {
-            return view('pages.dashboard-user');
+            $totalPeminjaman = Borrowing::where('user_id', auth()->user()->id)->count();
+            $totalDipinjam = Borrowing::where('user_id', auth()->user()->id)->where('status', 'dipinjam')->count();
+            $totalDikembalikan = Borrowing::where('user_id', auth()->user()->id)->where('status', 'dikembalikan')->count();
+            $totalPengembalianTerlambat = Borrowing::where('user_id', auth()->user()->id)->where('status', 'terlambat')->count();
+            $rekomendasiBuku = Book::withCount('borrows')
+                ->with('category')
+                ->orderByDesc('borrows_count')
+                ->take(5)
+                ->get();
+            return view('pages.dashboard-user', compact('rekomendasiBuku', 'totalPeminjaman', 'totalDipinjam', 'totalDikembalikan', 'totalPengembalianTerlambat'));
         } else {
 
             // Card Dashboard

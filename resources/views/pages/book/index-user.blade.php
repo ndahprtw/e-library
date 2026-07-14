@@ -37,37 +37,31 @@
       <div class="shop-part d-flex w-100">
         <div class="shop-filters flex-shrink-0 border-end d-none d-lg-block">
           <ul class="list-group pt-2 border-bottom rounded-0">
-            <h6 class="my-3 mx-4 fw-semibold">Filter by Category</h6>
-            <li class="list-group-item border-0 p-0 mx-4 mb-2">
-              <a class="d-flex align-items-center gap-2 list-group-item-action text-dark px-3 py-6 rounded-1"
-                href="{{ route('buku.index') }}"><i class="ti ti-circles fs-5"></i>All
-              </a>
-            </li>
-              @foreach ($kategori as $item)
-                <li class="list-group-item border-0 p-0 mx-4 mb-2">
-                  <a class="d-flex align-items-center gap-2 list-group-item-action text-dark px-3 py-6 rounded-1" href="">
-                    <i class="ti ti-tag fs-5"></i>{{ $item->nama_kategori }}
+              <h6 class="my-3 mx-4 fw-semibold">Filter Kategori</h6>
+
+              <li class="list-group-item border-0 p-0 mx-4 mb-2">
+                  <a href="{{ route('buku.index') }}"
+                    class="d-flex align-items-center gap-2 list-group-item-action px-3 py-2 rounded-2
+                    {{ request('kategori') == null ? 'bg-primary text-white' : 'text-dark' }}">
+                      <i class="ti ti-layout-grid"></i>
+                      Semua
                   </a>
-                </li>
+              </li>
+
+              @foreach ($kategori as $item)
+                  <li class="list-group-item border-0 p-0 mx-4 mb-2">
+                      <a href="{{ route('buku.index', [
+                              'kategori' => $item->id,
+                              'sort' => request('sort'),
+                              'search' => request('search')
+                          ]) }}"
+                        class="d-flex align-items-center gap-2 list-group-item-action px-3 py-2 rounded-2
+                        {{ request('kategori') == $item->id ? 'bg-primary text-white' : 'text-dark' }}">
+                          <i class="ti ti-tag"></i>
+                          {{ $item->nama_kategori }}
+                      </a>
+                  </li>
               @endforeach
-          </ul>
-          <ul class="list-group pt-2 border-bottom rounded-0">
-            <h6 class="my-3 mx-4 fw-semibold">Sort By</h6>
-            <li class="list-group-item border-0 p-0 mx-4 mb-2">
-              <a class="d-flex align-items-center gap-2 list-group-item-action text-dark px-3 py-6 rounded-1"
-                href="javascript:void(0)"><i class="ti ti-ad-2 fs-5"></i>Terpopuler
-              </a>
-            </li>
-            <li class="list-group-item border-0 p-0 mx-4 mb-2">
-              <a class="d-flex align-items-center gap-2 list-group-item-action text-dark px-3 py-6 rounded-1"
-                href="javascript:void(0)"><i class="ti ti-sort-ascending-2 fs-5"></i>Terbaru
-              </a>
-            </li>
-            <li class="list-group-item border-0 p-0 mx-4 mb-2">
-              <a class="d-flex align-items-center gap-2 list-group-item-action text-dark px-3 py-6 rounded-1"
-                href="javascript:void(0)"><i class="ti ti-sort-descending-2 fs-5"></i></i>Terlama
-              </a>
-            </li>
           </ul>
           <div class="p-4">
             <a href="{{ route('buku.index') }}" class="btn btn-primary w-100">Reset Filters</a>
@@ -87,7 +81,7 @@
           <div class="row">
 
             @foreach ($data as $item)
-              <div class="col-sm-6 col-xl-4">
+              <div class="col-sm-4 col-xl-3">
                 <div class="card hover-img overflow-hidden rounded-2">
                   <div class="position-relative">
                     @if ($item->cover)
@@ -125,39 +119,32 @@
         <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
           <div class="offcanvas-body shop-filters w-100 p-0">
             <ul class="list-group pt-2 border-bottom rounded-0">
-              <h6 class="my-3 mx-4 fw-semibold">Filter by Category</h6>
-              <li class="list-group-item border-0 p-0 mx-4 mb-2">
-                <a class="d-flex align-items-center gap-2 list-group-item-action text-dark px-3 py-6 rounded-1" href="{{ route('buku.index') }}">
-                  <i class="ti ti-circles fs-5"></i>All
-                </a>
-              </li>
-              @foreach ($kategori as $item)
-                <li class="list-group-item border-0 p-0 mx-4 mb-2">
-                  <a class="d-flex align-items-center gap-2 list-group-item-action text-dark px-3 py-6 rounded-1" href="">
-                    <i class="ti ti-tag fs-5"></i>{{ $item->nama_kategori }}
-                  </a>
-                </li>
-              @endforeach
-            </ul>
-            <ul class="list-group pt-2 border-bottom rounded-0">
-              <h6 class="my-3 mx-4 fw-semibold">Sort By</h6>
-              <li class="list-group-item border-0 p-0 mx-4 mb-2">
-                <a class="d-flex align-items-center gap-2 list-group-item-action text-dark px-3 py-6 rounded-1"
-                  href="javascript:void(0)"><i class="ti ti-ad-2 fs-5"></i>Terpopuler
-                </a>
-              </li>
-              <li class="list-group-item border-0 p-0 mx-4 mb-2">
-                <a class="d-flex align-items-center gap-2 list-group-item-action text-dark px-3 py-6 rounded-1"
-                  href="javascript:void(0)"><i class="ti ti-sort-ascending-2 fs-5"></i>Terbaru
-                </a>
-              </li>
-              <li class="list-group-item border-0 p-0 mx-4 mb-2">
-                <a class="d-flex align-items-center gap-2 list-group-item-action text-dark px-3 py-6 rounded-1"
-                  href="javascript:void(0)"><i class="ti ti-sort-descending-2 fs-5"></i></i>Terlama
-                </a>
-              </li>
-            </ul>
+                <h6 class="my-3 mx-4 fw-semibold">Filter Kategori</h6>
 
+                <li class="list-group-item border-0 p-0 mx-4 mb-2">
+                    <a href="{{ route('buku.index') }}"
+                      class="d-flex align-items-center gap-2 list-group-item-action px-3 py-2 rounded-2
+                      {{ request('kategori') == null ? 'bg-primary text-white' : 'text-dark' }}">
+                        <i class="ti ti-layout-grid"></i>
+                        Semua
+                    </a>
+                </li>
+
+                @foreach ($kategori as $item)
+                    <li class="list-group-item border-0 p-0 mx-4 mb-2">
+                        <a href="{{ route('buku.index', [
+                                'kategori' => $item->id,
+                                'sort' => request('sort'),
+                                'search' => request('search')
+                            ]) }}"
+                          class="d-flex align-items-center gap-2 list-group-item-action px-3 py-2 rounded-2
+                          {{ request('kategori') == $item->id ? 'bg-primary text-white' : 'text-dark' }}">
+                            <i class="ti ti-tag"></i>
+                            {{ $item->nama_kategori }}
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
             <div class="p-4">
               <a href="{{ route('buku.index') }}" class="btn btn-primary w-100">Reset Filters</a>
             </div>

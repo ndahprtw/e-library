@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Book;
 use App\Models\Borrowing;
 use App\Notifications\BookAvailableNotification;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -134,5 +136,22 @@ class BorrowingController extends Controller implements HasMiddleware
         $notification = Auth::user()->notifications()->findOrFail($id);
         $notification->markAsRead();
         return redirect()->back();
+    }
+
+    public function exportPdf(Request $request)
+    {
+        $bulan = $request->bulan;
+        $tahun = $request->tahun;
+
+        $periode = Carbon::create()->month((int) $bulan)->translatedFormat('F') . ' ' . $tahun;
+
+        $data = Borrowing::whereMonth('tanggal_peminjaman', $bulan)
+            ->whereYear('tanggal_peminjaman', $tahun)
+            ->with('book.category')
+            ->get();
+
+        $pdf = Pdf::loadView('pages.borrowing.download', compact('data', 'periode'))
+            ->setPaper('a4', 'portrait'); 
+        return $pdf->stream('laporan-peminjaman-' . now()->format('d-m-Y') . '.pdf');
     }
 }

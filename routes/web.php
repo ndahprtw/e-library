@@ -4,6 +4,7 @@ use App\Http\Controllers\BookController;
 use App\Http\Controllers\BorrowingController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MainController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReminderController;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/', [MainController::class, 'home'])->name('home');
 
 // Route::get('/dashboard', function () {
 //     return view('pages.dashboard');
@@ -41,6 +43,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/buku/export/excel', [BookController::class, 'exportExcel'])->name('buku.export.excel');
     Route::resource('books', BookController::class)->names('buku');
     Route::resource('borrowings', BorrowingController::class)->names('peminjaman');
+    Route::get('/peminjaman/export/pdf', [BorrowingController::class, 'exportPdf'])->name('peminjaman.export.pdf');
     Route::get('/notifications/{id}', [BorrowingController::class, 'read'])->name('notifications.read');
 });
 

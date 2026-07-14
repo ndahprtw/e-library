@@ -91,12 +91,12 @@
                         <div class="d-flex align-items-center py-9 mx-7 border-bottom">
                           <img src="{{ asset('assets/images/profile/user-1.jpg') }}" class="rounded-circle" width="80" height="80" alt="" />
                           <div class="ms-3">
-                            <h5 class="mb-1 fs-3">Nama</h5>
-                            <span class="mb-1 d-block text-dark">Role</span>
+                            <h5 class="mb-1 fs-3">{{ auth()->user()->name }}</h5>
+                            <span class="mb-1 d-block text-dark">{{ auth()->user()->getRoleNames()->first()}}</span>
                           </div>
                         </div>
-                        <div class="message-body">
-                          <a href="./page-user-profile.html" class="py-8 px-7 mt-8 d-flex align-items-center">
+                        {{-- <div class="message-body">
+                          <a href="/profile" class="py-8 px-7 mt-8 d-flex align-items-center">
                             <span class="d-flex align-items-center justify-content-center bg-light rounded-1 p-6">
                               <img src="{{ asset('assets/images/svgs/icon-account.svg') }}" alt="" width="24" height="24">
                             </span>
@@ -105,7 +105,7 @@
                               <span class="d-block text-dark">Account Settings</span>
                             </div>
                           </a>
-                        </div>
+                        </div> --}}
                         <form method="POST" action="{{ route('logout') }}">
                           <div class="d-grid py-4 px-7 pt-8">
                               @csrf
